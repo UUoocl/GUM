@@ -31,7 +31,7 @@ rtcID= clientID
     })
 
     async function init() {
-      console.log("stream started", event)
+      console.log("stream started")
 
       remoteStream = new MediaStream();
 
