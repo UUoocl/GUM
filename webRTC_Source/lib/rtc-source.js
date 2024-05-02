@@ -12,6 +12,8 @@ async function OBSconnect(){
   console.log("connection called")
   await connectOBS(obs)
   //connect
+  let pname = window.location.pathname
+  rtcID = pname.split("-").pop().replace(".html", "")
   await sendWSSdetails()
   
   // //refresh browser
@@ -27,23 +29,12 @@ async function OBSconnect(){
   //     propertyName: "refreshnocache"
   //   });
   // }})
-
-
   loadRenderer();
   
 };
 
+
 async function loadRenderer() {
-  //get obs ws socket details
-  
-  // IP = setupDetails.websocketIP;
-  // PORT = setupDetails.websocketPort;
-  // PW = setupDetails.websocketPassword;
-  
-  let pname = window.location.pathname
-  clientID = pname.split("-").pop().replace(".html", "")
-  console.log(clientID)
-  rtcID = clientID;
   
   const videoButton = document.getElementById("videoButton");
   videoButton.addEventListener("click", selectVideo);

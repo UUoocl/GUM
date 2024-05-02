@@ -77,7 +77,7 @@ var v = document.getElementById("videoStream");
             poseLandmarkerResult,
             PoseLandmarker.POSE_CONNECTIONS
           );
-          
+                   
           //processResults(poseLandmarkerResult.landmarks[0]);
           //send results to OBS Browser Source
           obs.call("CallVendorRequest", {
