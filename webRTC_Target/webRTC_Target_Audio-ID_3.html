@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>webRTC Target Audio</title>
+  <style>
+    body {
+  
+  font-size: 40px;
+  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+}
+body input {
+  
+  font-size: 20px;
+  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+}
+  </style>
+</head>
+
+<body>
+  <br /><label for="FPS">Enter Frames Per Second:</label>
+  <input type="number" id="FPS" name="FPS" value="1" /><br />
+
+  <video id="videoStream"></video>
+  <audio id="audioStream"></audio>
+
+
+  
+  <script src='../websocketDetails.js'></script>
+  <script src="lib/obs-ws.js"></script>
+  <script src="lib/obsConnect.js"></script>
+  <script src="lib/webRTC-Target-connect.js"></script>
+  <script src="lib/audioData-broadcast.js" type="module"></script>
+  
+  <!-- your javascript goes here -->
+  <!-- <script></script> -->
+</body>
+
+</html>

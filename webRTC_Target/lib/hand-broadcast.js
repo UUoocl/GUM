@@ -72,30 +72,31 @@ window.addEventListener(`rtc-connected-${rtcID}`, function (event) {
               });
               drawingUtils.drawLandmarks(landmarks, { color: "#FF0000", lineWidth: 2 });
             }
+             
+            let handLandmarkEventData = JSON.stringify(handLandmarkerResult.landmarks)
+              //processResults(poseLandmarkerResult.landmarks[0]);
+              //send results to OBS Browser Source
+              obs.call("CallVendorRequest", {
+                vendorName: "obs-browser",
+                requestType: "emit_event",
+                requestData: {
+                  event_name: "hand-landmarks",
+                  event_data: { handLandmarkEventData },
+                },
+              });
+              
+              //send results to Advanced Scene Switcher
+              const AdvancedSceneSwitcherMessage =
+              JSON.stringify(handLandmarkerResult);
+              obs.call("CallVendorRequest", {
+                vendorName: "AdvancedSceneSwitcher",
+                requestType: "AdvancedSceneSwitcherMessage",
+                requestData: {
+                  message: AdvancedSceneSwitcherMessage,
+                },
+              });
           }
-
-          //processResults(poseLandmarkerResult.landmarks[0]);
-          //send results to OBS Browser Source
-          obs.call("CallVendorRequest", {
-            vendorName: "obs-browser",
-            requestType: "emit_event",
-            requestData: {
-              event_name: "hand-landmarks",
-              event_data: { handLandmarkerResult },
-            },
-          });
-
-          //send results to Advanced Scene Switcher
-          const AdvancedSceneSwitcherMessage =
-            JSON.stringify(handLandmarkerResult);
-          obs.call("CallVendorRequest", {
-            vendorName: "AdvancedSceneSwitcher",
-            requestType: "AdvancedSceneSwitcherMessage",
-            requestData: {
-              message: AdvancedSceneSwitcherMessage,
-            },
-          });
-
+            
           //console.log(handLandmarkerResult);
         }
         canvasCtx.restore();

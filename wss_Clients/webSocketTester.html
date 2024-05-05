@@ -1,135 +1,136 @@
 <!DOCTYPE html>
 <html>
-  
-  <head>
-    <meta charset="UTF-8" />
-    <title>Media Tester</title>
-    
-    <style>
-      @use "@material";
-      
-      body {
-        font-family: roboto;
-        margin: 2em;
-        color: #3d3d3d;
-        background-color: antiquewhite;
 
-      }
-      
-      h1 {
-        color: #007f8b;
-      }
-      
-      h2 {
-        clear: both;
-      }
-      
-      
-      section {
-          opacity: 1;
-          transition: opacity 500ms ease-in-out;
-        }
-        
-        #output {
-            min-height: 100px;
-            min-width: 500px;
-            font-weight: bold;
-        }
+<head>
+  <meta charset="UTF-8" />
+  <title>Media Tester</title>
 
-        .collapsible {
-          background-color: #777;
-          color: white;
-          cursor: pointer;
-          padding: 18px;
-          width: 100%;
-          border: none;
-          text-align: left;
-          outline: none;
-          font-size: 15px;
-        }
-        
-        .active, .collapsible:hover {
-          background-color: #555;
-        }
-        
-        .content {
-          padding: 0 18px;
-          display: none;
-          overflow: hidden;
-          background-color: #f1f1f1;
-        }
-      </style>
+  <style>
+    @use "@material";
+
+    body {
+      font-family: roboto;
+      margin: 2em;
+      color: #3d3d3d;
+      background-color: antiquewhite;
+
+    }
+
+    h1 {
+      color: #007f8b;
+    }
+
+    h2 {
+      clear: both;
+    }
+
+
+    section {
+      opacity: 1;
+      transition: opacity 500ms ease-in-out;
+    }
+
+    #output {
+      min-height: 100px;
+      min-width: 500px;
+      font-weight: bold;
+    }
+
+    .collapsible {
+      background-color: #777;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .active,
+    .collapsible:hover {
+      background-color: #555;
+    }
+
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+      background-color: #f1f1f1;
+    }
+  </style>
 </head>
 
 <body>
   <h1>Testing the websocket messages from MediaPipe for OBS</h1>
   <p>This tests that each media is being received</p>
-  
-  
+
+
   <section id="media">
     <button type="button" class="collapsible">MediaPipe Pose Detection</button>
     <div class="content">
-      <p id="poseResults">    </p>
+      <p id="poseResults"> </p>
+    </div>
+    <button type="button" class="collapsible">MediaPipe Hand Detection</button>
+    <div class="content">
+      <p id="handResults"> </p>
+    </div>
+    <button type="button" class="collapsible">MediaPipe Face Detection</button>
+    <div class="content">
+      <p id="faceResults"> </p>
     </div>
     <button type="button" class="collapsible">MediaPipe Text Sentiment</button>
     <div class="content">
-      <p id="sentimentResult">    </p>
+      <p id="sentimentResult"> </p>
     </div>
     <button type="button" class="collapsible">Audio Frequency</button>
     <div class="content">
-      <p id="audioFFT">    </p>
+      <p id="audioFFT"> </p>
     </div>
     <button type="button" class="collapsible">Midi Data</button>
     <div class="content">
-      <p id="midiMessage">    </p>
+      <p id="midiMessage"> </p>
     </div>
     <button type="button" class="collapsible">Gamepad Data</button>
     <div class="content">
-      <p id="gamepad-message">    </p>
+      <p id="gamepad-message"> </p>
     </div>
     <button type="button" class="collapsible">OSC Server</button>
     <div class="content">
-      <p id="osc-message">    </p>
+      <p id="osc-message"> </p>
       <button type="button" id="lowerHands">Lower all hands</button>
       <button type="button" id="turnOnVideo">Turn on Video</button>
       <button type="button" id="sendChat">Send Chat</button>
     </div>
     <button type="button" class="collapsible">PTZ Data</button>
     <div class="content">
-      <p id="ptz-position-message">    </p>
+      <p id="ptz-position-message"> </p>
     </div>
   </section>
-  <script src="obs-ws.js"></script>
-  <script src="obsConnect.js"></script>
+  <script src="../websocketDetails.js"></script>
+  <script src="./lib/obs-ws.js"></script>
+  <script src="./lib/obsConnect.js"></script>
   <script src="webSocketTester.js"></script>
-  
+
   <script>
-    window.addEventListener(`ws-details`, async function (event) {
-      console.log("message received: ", event)
 
-      //event wss details
-      const IP = event.detail.wssDetails.IP;
-      const PORT = event.detail.wssDetails.PORT;
-      const PW = event.detail.wssDetails.PW;
-
-      await connectOBS(IP, PORT, PW);
-    })
+    document.addEventListener("DOMContentLoaded", async (event) => {
+      console.log("connect to OBS WebSocket Server");
+      await connectOBS(wssDetails.IP, wssDetails.PORT, wssDetails.PW);
+    });
 
     var coll = document.getElementsByClassName("collapsible");
     var i;
-    
+
     for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.display === "block") {
-              content.style.display = "none";
-            } else {
-              content.style.display = "block";
-            }
-          });
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling; if (content.style.display === "block") { content.style.display = "none"; } else {
+          content.style.display = "block";
         }
-        </script>
+      });
+    } </script>
 </body>
 
 </html>

@@ -5,6 +5,20 @@ window.addEventListener("pose-landmarks", function (event) {
   );
 });
 
+window.addEventListener("hand-landmarks", function (event) {
+  //console.log("message received: ",event)
+  document.getElementById("handResults").innerText = JSON.stringify(JSON.parse(
+    event.detail.handLandmarkEventData
+  ));
+});
+
+window.addEventListener("face-landmarks", function (event) {
+  //console.log("message received: ",event)
+  document.getElementById("faceResults").innerText = JSON.stringify(
+    event.detail.faceLandmarkerResult
+  );
+});
+
 window.addEventListener("sentimentResult", function (event) {
   //console.log("sentiment received: ",event)
   document.getElementById("sentimentResult").innerText = JSON.stringify(
@@ -18,7 +32,7 @@ window.addEventListener("audio-input", function (event) {
 });
 
 window.addEventListener("midi-message", function (event) {
-  //console.log("midi received: ",event)
+  console.log("midi received: ",event)
   document.getElementById("midiMessage").innerText = JSON.stringify(
     event.detail
   );
@@ -26,20 +40,20 @@ window.addEventListener("midi-message", function (event) {
 
 window.addEventListener("gamepad-message", function (event) {
   //console.log("gamepad-message received: ",event)
-  document.getElementById("gamepad-message").innerText = JSON.stringify(
-    event.detail.webSocketMessage
-  );
+  document.getElementById("gamepad-message").innerText = JSON.stringify(JSON.parse(
+    event.detail.gamepadEvent
+  ));
 });
 
 window.addEventListener("osc-message", function (event) {
-  console.log("osc-message received: ", event);
+  //console.log("osc-message received: ", event);
   document.getElementById("osc-message").innerText = JSON.stringify(
     event.detail.webSocketMessage
   );
 });
 
 window.addEventListener("ptz-position-message", function (event) {
-  console.log("ptz-position-message received: ", event);
+  //console.log("ptz-position-message received: ", event);
   document.getElementById("ptz-position-message").innerText = JSON.stringify(
     event.detail.ptzMessage
   );

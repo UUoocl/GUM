@@ -99,11 +99,12 @@ function updateStatus() {
     }
     //if sum is > 0 a button is pressed or stick moved
     if (sum > 0) {
-      //send message to OBS Browser and Advanced Scene Switcher
-      
-      const webSocketMessage = JSON.stringify(
+      //https://github.com/svidgen/www.thepointless.com/blob/main/src/routes/experimental/raw-gamepad-api/index.js
+      //stringify the gamepad event 
+      const gamepadEvent = JSON.stringify(
         navigator.getGamepads()
         .filter(p => p)
+        .filter(p => p.index == j)
         .map(pad => ({
             index: pad.index,
             id: pad.id,
@@ -119,14 +120,13 @@ function updateStatus() {
         null,
         2
     )
-    console.log(`gamepad-${j}`)
-          //send results to OBS Browser Source
+    //send results to OBS Browser Source
       obs.call("CallVendorRequest", {
         vendorName: "obs-browser",
         requestType: "emit_event",
         requestData: {
-          event_name: `gamepad-${j}`,
-          event_data: { webSocketMessage },
+          event_name: `gamepad-message`,
+          event_data: { gamepadEvent },
         },
       });
       
@@ -135,7 +135,7 @@ function updateStatus() {
         vendorName: "AdvancedSceneSwitcher",
         requestType: "AdvancedSceneSwitcherMessage",
         requestData: {
-          message: webSocketMessage,
+          message: gamepadEvent,
         },
       });
     }

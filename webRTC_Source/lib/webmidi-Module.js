@@ -32,14 +32,16 @@ function onEnabled() {
     function sendMidiMessage(e){
       console.log(e)
         document.getElementById(`midi-${index}-data`).innerHTML = `channel:${JSON.stringify(e.message.channel)}, command:${JSON.stringify(e.message.command)}, type:${JSON.stringify(e.message.type)}, rawData:${JSON.stringify(e.message.rawData)}` ;
-        const webSocketMessage = JSON.stringify(e.message)
+        const midiEvent = JSON.stringify(e.message)
+        const deviceName = e.port._midiInput.name
     //send results to OBS Browser Source
+
      obs.call("CallVendorRequest", {
         vendorName: "obs-browser",
         requestType: "emit_event",
         requestData: {
-          event_name: `midi-${e.port._midiInput.name}`,
-          event_data: { webSocketMessage},
+          event_name: `midi-message`,
+          event_data: { deviceName, midiEvent },
         },
       });
       
@@ -48,7 +50,7 @@ function onEnabled() {
         vendorName: "AdvancedSceneSwitcher",
         requestType: "AdvancedSceneSwitcherMessage",
         requestData: {
-          "message": webSocketMessage,
+          "message": { deviceName, midiEvent },
         },
       });
       }
