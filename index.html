@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>OBS GetUserMedia</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+</head>
+<link href="lib/style.css" rel="stylesheet" type="text/css" />
+<body>
+    <nav class="toc">
+        <ul>
+            <li><a href="#Intro">Media for OBS</a></li>
+            <li>
+                <a href="#srvr">Connections</a>
+                <ul>
+                    <li><a href="#srvr-obs-ws">OBS WebSocket Server</a></li>
+                    <li><a href="#srvr-webRTC">webRTC Source</a></li>
+                </ul>
+            </li>
+            <li>
+                <li>
+                    <a href="#audio">Audio</a>
+                    <ul>
+                        <li><a href="#audio-fft-analysis">Audio Frequency</a></li>
+                        <li><a href="#audio-speechRecognition">Speech Recognition</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#input">Input</a>
+                    <ul>
+                        <li><a href="#input-midi-devices">Midi</a></li>
+                        <li><a href="#input-gamepad-controller">Gamepad</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#mp">MediaPipe</a>
+                    <ul>
+                        <li><a href="#mp-pose-detect">Pose Landmark<br>Detection</a></li>
+                        <li><a href="#mp-hand-detect">Hand Landmarks</a></li>
+                        <li><a href="#mp-face-detect">Face Landmark<br>Detection</a></li>
+                        <li><a href="#mp-segmentation-detect">Image Segmentation</a></li>
+                        <li><a href="#mp-sentiment-analysis">Text Sentiment</a></li>
+                        <li><a href="#mp-gemma">Gemma<br>LLM Inference</a></li>
+                    </ul>
+                </li>
+            </ul>
+            
+    </nav>
+
+    <article class="contents">
+        <h1>Get User Media for OBS</h1>
+        <h4>Choose the media (Video, Audio, Midi or Gamepad) to send to the OBS Browser</h4>
+
+        <section>
+            <div id="srvr">
+                <div id="srvr-obs-ws">
+                    <h3>Connect to the OBS WebSocket Server</h3>
+                    <form class="form-grid">
+                            <label for="IP">Enter IP address or "localhost":</label>
+                            <input type="text" id="IP" name="IP" value="localhost" />
+                            <label for="Port">Enter Port Number:</label>
+                            <input type="text" id="Port" name="Port" value="4455" />
+                            <label for="PW">Enter Password:</label>
+                            <input type="password" id="PW" name="PW" value="EfTC8xml3070cx3A" />
+                            <input class="form-button" type="button" id="WSconnectButton" value="Connect to OBS" />
+                        </form>
+                
+                </div>
+                <div>
+                    <h3>Choose an Audio and/or Video Source</h3>
+                    <p>
+                        <input type="checkbox" id="videoButton">
+                        <label for="videoButton">Desktop Window (Video)</label>
+                        <br>
+                        <input type="checkbox" id="audioButton">
+                        <label for="audioButton">Microphone (Choose Microphone in Chrome Settings:
+                            chrome://settings/content/microphone)</label><br>
+                        <input class="form-button" type="button" id="captureSource" value="Check Audio/Video" />
+                        <br>
+                        <video id="videoStream"></video>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <section>
+			<div id="audio">
+                <div id="audio-fft-analysis">
+                    <h3>Audio Frequency Analysis</h3>
+                    <div id='fft'></div>
+                    <label for="FPS">Enter Frames Per Second:</label>
+                    <input type="text" id="FPS" name="FPS" value="1" /><br />            
+                </div>
+            </div>
+		</section>
+		
+
+        <section>
+            <div>
+                <div id="srvr-webRTC"></div>
+                <h3>Send Audio and/or Video to a target OBS Browser source via webRTC</h3>
+                <div id="selectAudio"></div>
+                <div id="intro-container">
+                    <p id="clientInfo"></p>
+                
+                    <input class="form-small-button" type="button" id="refreshRTCbrowsers" value="refresh 
+webRTC
+OBS browsers" />
+                    <form class="form-grid">
+                    
+                    <label for="pcName">Enter the name of peerConnections</label>
+                    <input type="text" id="pcName" value="ID" size="10"/>                
+            
+                    <label for="pcNumber">Enter the number of peerConnections</label>
+                    <input type="number" id="pcNumber" value=1 maxlength="2" size="10" />
+                    <input class="form-button" type="button" id="rtcButton" value="Start webRTC" />
+                    
+            </form>
+        </section>
+
+        <section>
+            <div id="input-midi-devices">
+                <h3>Midi</h3>
+                <p id="midi"></p>
+                <p id="midiData"></p>
+            </div>
+        </section>
+
+        <section>
+            <div id="input-gamepad-controller">
+                <h3>
+                <!-- <input type="checkbox" id="gamepad-load"/> -->
+                        Gamepad</h3>
+                <div id="gamepad-display" style="display:inline;">
+                    <p>https://github.com/luser/gamepadtest</p>
+                    <h4 id="startGP">Press a button on your controller to start</h2>
+                        <div id="gpData"></div>
+                    </div>
+                </div>
+        </section>
+        <section>
+            <div id="audio-SpeechRecognition">
+                <h3>
+                <!-- <input type="checkbox" id="gamepad-load"/> -->
+                        WebSpeech API Speech Recognition</h3>
+                <div id="audio-speechRecognition" style="display:inline;">
+                    <input type="button" class="form-button" id="startSpeechRecognition" value="Start Speech Recognition"/>
+                        <div id="speechRecognition"></div>
+                    </div>
+                </div>
+        </section>
+        <section>
+            <div>
+                <h3>MediaPipe Pose Detection</h3>
+                <div id="mp-pose-detect" style="display:inline;">
+                    <input type="button" class="form-button" id="startPoseDetectButton" value="Start Pose Detection"/>
+                    <div id="poseLandmarksCanvas"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>MediaPipe Hand Landmark</h3>
+                <div id="mp-hand-detect" style="display:inline;">
+                    <input type="button" class="form-button" id="startHandLandmarks" value="Start Hand Detection" />
+                    <div id="handLandmarks"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>MediaPipe Face Landmark Dectection</h3>
+                <div id="mp-face-detect" style="display:inline;">
+                    <input type="button" class="form-button" id="startFaceLandmarks" value="Start Face Detection" />
+                    <div id="faceLandmarks"></div>
+                </div>
+            </div>
+
+            <div>
+                <h3>MediaPipe Image Segmentation</h3>
+                <div id="mp-segmentation-detect" style="display:inline;">
+                    <!-- <button id="webcamButton" class="mdc-button mdc-button--raised">
+                        <span class="mdc-button__ripple"></span>
+                        <span class="mdc-button__label">ENABLE WEBCAM</span>
+                      </button> -->
+                    <input type="button" class="form-button" id="startSegmentation" value="Load Image Segmentation" />
+                    <div id="segmentation"></div>
+                        <canvas id="segmentationCanvas" width="480px" height="360px"></canvas>
+                    </div>
+                </div>
+            </div>
+           
+            <div>
+                <h3>MediaPipe Text Classification</h3>
+                <div id="mp-sentiment-analysis">
+                    <input type="button" class="form-button" id="startTextAnalysis" value="Start Text Analysis" />
+                    <h1>Classifying text with the MediaPipe Text Classifier Task</h1>
+                    <p>This demo listens for event {speechToText}, then runs sentiment analysis. The result shows how likely the input text is to have a
+                      positive or negative sentiment.
+                  
+                      <section id="demos" class="invisible">
+                        <p><b>Input:
+                        </b>
+                      </p>
+                      <label>
+                        <span ></span>
+                        <span >
+                  
+                          <textarea id="input" rows="8" cols="40" aria-label="Text Input"></textarea>
+                        </span>
+                        <span></span>
+                      </label></br>
+                      <button id="submit">
+                        <span>CLASSIFY</span>
+                      </button></br>
+                  
+                      <p><b>Sentiment:</b></p>
+                      <p id="output"></p>
+                </div>
+            </div>
+            
+            <div>
+                <h1>MediaPipe Gemma LLM Inference</h1>
+                <div id="mp-gemma">
+                    <input type="button" class="form-button" id="startLLM" value="Start Gemma" />
+                    <h4>Text-to-Text large language model </h4>
+                    <p>Gemma 2B is a part of a family of lightweight, state-of-the-art open models built from the same research and technology used to create the Gemini models. The model contains 2B parameters and open weights. This model is well-suited for a variety of text generation tasks, including question answering, summarization, and reasoning.
+
+                      <a href="https://developers.google.com/mediapipe/solutions/genai/llm_inference">https://developers.google.com/mediapipe/solutions/genai/llm_inference</a>
+                      <br>
+                      <a href="https://ai.google.dev/gemma/docs/formatting">Gemma formatting and system instructions</a>
+<br>
+                   
+                      Input:<br />
+                      example format<br />
+                      <code>&lt;start_of_turn&gt;user<br />
+                        Some question?&lt;end_of_turn&gt;<br />
+                        &lt;start_of_turn&gt;model</code><br />
+    <textarea id="gemmaInput" style="height: 300px; width: 600px"></textarea><br />
+    <input type="button" id="gemmaSubmit" value="Get Response" disabled /><br />
+    <br />
+    Result:<br />
+    <textarea id="gemmaOutput" style="height: 300px; width: 600px"></textarea>
+                </div>
+            </div>
+        </section>
+    </article>
+
+    <script src='lib/obs-ws.js'></script>
+    <script src='lib/obsConnect.js'></script>
+    <script src='lib/getLocalAV.js'></script>
+    <script src='lib/rtc-source.js'></script>
+    <script src="lib/webmidi.js"></script>
+    <script src="lib/webmidi-Module.js"></script>
+    <script src="lib/gamepadtest.js"></script>
+    <script src="lib/audioInput-renderer.js"></script>
+    <script src="lib/SpeechRecognition.js"></script>
+    <script src="lib/loadScripts.js"></script>
+
+</body>
+</html>
