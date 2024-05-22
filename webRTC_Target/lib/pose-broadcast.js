@@ -31,7 +31,7 @@ var v = document.getElementById("videoStream");
      PoseLandmarker,
      FilesetResolver,
      DrawingUtils,
-  } from "../../mediapipe_Tasks/tasks-vision/vision_bundle.mjs"
+  } from "../../mediaPipe_Tasks/tasks-vision/vision_bundle.mjs"
   //console.log("listening for rtc-connected-",rtcID )
   window.addEventListener(`rtc-connected-${rtcID}`, function (event) {
   //console.log("Module started");

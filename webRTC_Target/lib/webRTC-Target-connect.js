@@ -9,31 +9,25 @@
     //get client ID from file name
     let pname = window.location.pathname
     clientID = pname.split("-").pop().replace(".html", "")
+    //ID
     wssID=clientID.split("_")[0]
+    //ID_Index
     rtcID= clientID
     console.log("rtcID",rtcID)
     console.log("wssID",wssID)
-    //connect to OBS wss
-    window.addEventListener(`ws-details-for-client-${wssID}`, async function (event) {
-      console.log("message received: ", event)
-      
-      //event wss details
-      const IP = event.detail.wssDetails.IP;
-      const PORT = event.detail.wssDetails.PORT;
-      const PW = event.detail.wssDetails.PW;
-      
-      await connectOBS();
-      obs.call("BroadcastCustomEvent", {
-        eventData: {
-          event_name: `client-connected-${wssID}`
-        },
-      });
 
-      init()
-    })
+    // obs.call("BroadcastCustomEvent", {
+    //   eventData: {
+    //     event_name: `client-connected-${wssID}`
+    //   },
+    // });
 
-    async function init() {
-      console.log("stream started")
+
+    //listen for start rtc message
+    //window.addEventListener(`rtc-connected-${rtcID}`, function (event) {
+    playRemoteStream()
+    async function playRemoteStream() {
+      console.log(`play stream ${rtcID}`)
 
       remoteStream = new MediaStream();
 
@@ -76,6 +70,7 @@
 
           //send answer to host 
           answerMessage = JSON.stringify(peerConnection.localDescription)
+          console.log(`send Answer ${rtcID}`)
           obs.call("BroadcastCustomEvent", {
             eventData: {
               event_name: `rtc-answer-${rtcID}`,
@@ -93,7 +88,7 @@
 
     //listen for webRTC offer message
     window.addEventListener(`rtc-offer-${rtcID}`, function (event) {
-      console.log(event.detail);
+      console.log(`${rtcID} received offer `,event);
       offer = JSON.stringify(JSON.parse(event.detail.offerMessage))
       createAnswer()
-    });
+    }); 
