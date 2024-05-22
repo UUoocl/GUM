@@ -1,0 +1,20 @@
+{
+  "name": "@mediapipe/tasks-text",
+  "version": "0.10.12",
+  "description": "MediaPipe Text Tasks",
+  "main": "text_bundle.cjs",
+  "browser": "text_bundle.mjs",
+  "module": "text_bundle.mjs",
+  "exports": {
+    "import":  "./text_bundle.mjs",
+    "require": "./text_bundle.cjs",
+    "default":  "./text_bundle.mjs",
+    "types":  "./text.d.ts"
+  },
+  "author": "mediapipe@google.com",
+  "license": "Apache-2.0",
+  "type": "module",
+  "types": "text.d.ts",
+  "homepage": "http://mediapipe.dev",
+  "keywords": [ "AR", "ML", "Augmented", "MediaPipe", "MediaPipe Tasks" ]
+}
