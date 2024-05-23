@@ -59,8 +59,8 @@ Click the "Connect to OBS" button.  If the connection is successful the button c
 
 ### Capture Audio or Desktop
 - To capture a desktop window, check the "Desktop Window" box. [how to create an OBS projector window](#add-an-obs-scene-and-source)
-- To capture a desktop window, check the "Desktop Window" box. [how to create an OBS projector window](#getting-started)
 - To capture a microphone, check the "Microphone" box. 
+> :memo: **Note:** Choosing a window or microphone to capture is optional, if you are only using Midi and Gamepad inputs.  
 
 #### <a id="add-an-obs-scene-and-source"></a>Add an OBS Scene and Sourced
 1. Create a Scene named "Scene"
@@ -72,4 +72,6 @@ Click the "Connect to OBS" button.  If the connection is successful the button c
   - right click on the "Video Capture Device" source
   - click "Windowed Projector (Source)"
   - ![image](https://github.com/UUoocl/OBS-face-tracking-with-P5js/assets/99063397/8e0432a7-4660-4e0c-8933-8aaae338d1b4)
+
+
 
