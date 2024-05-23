@@ -68,10 +68,15 @@ Click the "Connect to OBS" button.  If the connection is successful the button c
 
 ![image](https://github.com/UUoocl/OBS-face-tracking-with-P5js/assets/99063397/a136b9a3-7225-4079-95ec-14adef4bca83)
 
-3.Open a preview window
+3. Open a preview window
   - right click on the "Video Capture Device" source
   - click "Windowed Projector (Source)"
   - ![image](https://github.com/UUoocl/OBS-face-tracking-with-P5js/assets/99063397/8e0432a7-4660-4e0c-8933-8aaae338d1b4)
+
+## Audio Frequency Analysis
+The audio data from the selected microphone is sent to OBS as a "Broadcast" message. 
+By default messages are sent 1 per second.  The frames per second can be set a preferred speed.
+### Audio Frequency Message
 
 
 
