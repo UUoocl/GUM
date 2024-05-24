@@ -74,9 +74,85 @@ Click the "Connect to OBS" button.  If the connection is successful the button c
   - ![image](https://github.com/UUoocl/OBS-face-tracking-with-P5js/assets/99063397/8e0432a7-4660-4e0c-8933-8aaae338d1b4)
 
 ## Audio Frequency Analysis
-The audio data from the selected microphone is sent to OBS as a "Broadcast" message. 
-By default messages are sent 1 per second.  The frames per second can be set a preferred speed.
+The audio data from the selected microphone is sent to OBS as a browser event message. 
+By default messages are sent 1 per second.  The frames per second can be set to a preferred speed.
 ### Audio Frequency Message
+**Message name:** audio-input
 
+**Event listener example**
+```javascript
+window.addEventListener("audio-input", function (event) {
+    console.log("audio received: ",event)
+    document.getElementById("audioFFT").innerText = JSON.stringify(event.detail);
+  });
+```
 
+**Event data**
 
+Audio is processed into 128 key value pairs.  
+Object 
+```JSON
+{
+    "dataArray": {
+        "0": 177,
+        "1": 179,
+        .
+        .
+        .
+        "127": 0
+    }
+}
+```
+
+## MIDI Input
+The MIDI data from detected devices is sent to OBS as a browser event message. 
+The webMIDI.js library is used to process the MIDI devices and messages. 
+
+### MIDI Output Message
+**Message name:** midi-message
+
+**Event listener example**
+```javascript
+window.addEventListener("midi-message", function (event) {
+    //console.log("midi received: ",event)
+    document.getElementById("midiMessage").innerText = JSON.stringify(
+      event.detail
+    );
+  });
+```
+
+**Event data**
+The MIDI event message includes the "deviceName" and "midiEvent" details.  
+ 
+Object 
+```JSON
+{
+    "deviceName": "iPad",
+    "midiEvent": "{\"rawData\":{\"0\":144,\"1\":62,\"2\":0},\"data\":[144,62,0],\"statusByte\":144,\"rawDataBytes\":{\"0\":62,\"1\":0},\"dataBytes\":[62,0],\"isChannelMessage\":true,\"isSystemMessage\":false,\"command\":9,\"channel\":1,\"type\":\"noteon\"}"
+}
+```
+## Gamepad Input
+The Gamepad data from detected devices is sent to OBS as a browser event message. 
+
+### Gamepad Output Message
+**Message name:** gamepad-message
+
+**Event listener example**
+```javascript
+  window.addEventListener("gamepad-message", function (event) {
+    console.log("gamepad-message received: ",event)
+    document.getElementById("gamepad-message").innerText = JSON.stringify(
+      event.detail
+    );
+  });
+```
+
+**Event data**
+The Gamepad event message details are sent as string.  
+ 
+Object 
+```JSON
+{
+    "gamepadEvent": "{\n  \"index\": 0,\n  \"id\": \"8BitDo Micro gamepad (Vendor: 2dc8 Product: 9020)\",\n  \"mapping\": \"\",\n  \"axes\": [\n    -0.003921568393707275,\n    -0.003921568393707275,\n    -0.003921568393707275,\n    0,\n    -1,\n    -0.003921568393707275,\n    0,\n    0,\n    0,\n    1.2857143878936768\n  ],\n  \"buttons\": [\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    },\n    {\n      \"pressed\": false,\n      \"touched\": false,\n      \"value\": 0\n    }\n  ],\n  \"vibrationActuator\": null\n}"
+}
+```
