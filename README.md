@@ -252,6 +252,7 @@ The Text Sentiment function is triggered by changes to the OBS Text Source creat
 
 ```mermaid
 sequenceDiagram
+    GUM->>GUM: Start Speech Recognition 
     GUM->>+OBS: Start Speech Recognition event
     OBS->>OBS: Text Source update 
     OBS->>GUM: Text Source changed event
