@@ -17,6 +17,7 @@
 
 <!-- ToC end -->
 
+## Overview
 The OBS Browser Source doesn't support direct access to media like Camera, Microphone, Desktop Capture, Midi and Game Controllers. 
 The Get User Media for OBS sends media from a Chrome Browser to the OBS Browser source. 
 ```mermaid
@@ -45,10 +46,11 @@ B(Browser Source);
 end
 ```
 
-## <a id="getting-started"></a>Getting Started
+## Getting Started
 Open [GUM for OBS](https://obsgum.github.io/) in a Chrome browser.  
 Optionally, download and run GUM for OBS locally.  
-> :memo: **Note:** The WebSpeech API doesn't work locally.  Google annouced at I/O 2024 that local WebSpeech is coming soon. 
+> :memo: **Note:** The WebSpeech API doesn't work off-line. The WebSpeech API is used for Speech Recognition. Google annouced at [I/O 2024 that local off-line WebSpeech is coming soon](https://youtu.be/PJm8WNajZtw?si=tW8ZtjAnWwvGxFt8&t=1873).
+<br>Use the OBS Plug-in "[Local Vocal](https://obsproject.com/forum/resources/localvocal-local-live-captions-translation-on-the-go.1769/)" when running GUM for OBS offline.    
 
 ### Enable the OBS WebSocket Server
 Open [OBS](https://obsproject.com/).
@@ -65,9 +67,9 @@ Click the "Connect to OBS" button.  If the connection is successful the button c
 ### Capture Audio or Desktop
 - To capture a desktop window, check the "Desktop Window" box. [how to create an OBS projector window](#add-an-obs-scene-and-source)
 - To capture a microphone, check the "Microphone" box. 
-> :memo: **Note:** Choosing a window or microphone to capture is optional, if you are only using Midi and Gamepad inputs.  
+> :memo: **Note:** if you are only using Midi or Gamepad inputs choosing a window or microphone to capture is optional.  
 
-#### <a id="add-an-obs-scene-and-source"></a>Add an OBS Scene and Sourced
+#### Add an OBS Scene and Sourced
 1. Create a Scene named "Scene"
 2. Add a Video Capture Device source
 
@@ -301,12 +303,16 @@ Object
 ```
 
 ## Speech Recognition
+The [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) is used to convert microphone input to text.
 
-###  Output Message
-**Message name:** 
+The output text is sent to 2 OBS sources.  
+1. an event message is sent to the OBS Browser
+2. An OBS Text Source
+###  Speech Recognition Event Message
+**Message name:**  speechRecognition
 **Event listener example**
 ```javascript
-window.addEventListener("message", function (event) {
+window.addEventListener("speechRecognition", function (event) {
     //Do Something
   });
 ```
