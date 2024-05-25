@@ -186,6 +186,7 @@ Object
 
 ###  Output Message
 **Message name:** 
+
 **Event listener example**
 ```javascript
 window.addEventListener("message", function (event) {
@@ -206,6 +207,7 @@ Object
 
 ###  Output Message
 **Message name:** 
+
 **Event listener example**
 ```javascript
 window.addEventListener("message", function (event) {
@@ -226,6 +228,7 @@ Object
 
 ###  Output Message
 **Message name:** 
+
 **Event listener example**
 ```javascript
 window.addEventListener("message", function (event) {
@@ -243,9 +246,23 @@ Object
 ```
 
 ##  MediaPipe Text Sentiment
+After starting Speech Recognition the MediaPipe Text Sentiment can be used. 
 
-###  Output Message
-**Message name:** 
+The Text Sentiment function is triggered by changes to the OBS Text Source created for Speech Recognition.
+
+```mermaid
+sequenceDiagram
+    GUM->>+OBS: Start Speech Recognition event
+    OBS->>OBS: Text Source update 
+    OBS->>GUM: Text Source changed event
+    GUM->>GUM: Text Sentiment Analysis
+    GUM->>OBS: Text Sentiment Result event
+    OBS->>OBS: Browser Source 
+```
+
+###  Text Sentiment Result Message
+**Message name:** sentimentResult
+
 **Event listener example**
 ```javascript
 window.addEventListener("message", function (event) {
@@ -266,6 +283,7 @@ Object
 
 ###  Output Message
 **Message name:** 
+
 **Event listener example**
 ```javascript
 window.addEventListener("message", function (event) {
@@ -286,6 +304,7 @@ Object
 
 ###  Output Message
 **Message name:** 
+
 **Event listener example**
 ```javascript
 window.addEventListener("message", function (event) {
@@ -308,8 +327,33 @@ The [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech
 The output text is sent to 2 OBS sources.  
 1. an event message is sent to the OBS Browser
 2. An OBS Text Source
+  - In OBS, create a Text source to receive the output
+  - In GUM for OBS, enter the Text source name 
+
+Example use: [lib/speechBGcolorChange.html](https://github.com/UUoocl/GUM/blob/main/obs_browser_examples/speechBGcolorChange.html)
+
+### Speech Recognition Started Event Message
+This event is sent after clicking the "Start Speech Recognition" button
+**Message name:**  speechRecognition-started
+**Event listener example**
+```javascript
+window.addEventListener("speechRecognition-started", function (event) {
+    //Do Something
+  });
+```
+
+**Event data**
+ 
+Object 
+```JSON
+{
+    "obs_textSourceName": "speechRecognition"
+}
+```
+
 ###  Speech Recognition Event Message
 **Message name:**  speechRecognition
+
 **Event listener example**
 ```javascript
 window.addEventListener("speechRecognition", function (event) {
