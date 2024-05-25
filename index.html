@@ -7,15 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YL858H3N2E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-YL858H3N2E');
-</script>
 <link href="lib/style.css" rel="stylesheet" type="text/css" />
 <body>
     <nav class="toc">
@@ -156,7 +148,12 @@ OBS browsers" />
                 <!-- <input type="checkbox" id="gamepad-load"/> -->
                         WebSpeech API Speech Recognition</h3>
                 <div id="audio-speechRecognition" style="display:inline;">
-                    <input type="button" class="form-button" id="startSpeechRecognition" value="Start Speech Recognition"/>
+                    <form>
+                        <label for="obs_textSourceName">Enter OBS Text Source Name:</label>
+                        <input type="text" id="obs_textSourceName" name="obs_textSourceName" value="speechRecognition" />
+                        
+                        <input type="button" class="form-button" id="startSpeechRecognition" value="Start Speech Recognition"/>
+                    </form>
                         <div id="speechRecognition"></div>
                     </div>
                 </div>
