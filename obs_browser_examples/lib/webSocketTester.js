@@ -1,9 +1,23 @@
 window.addEventListener("pose-landmarks", function (event) {
-    //console.log("message received: ",event)
-    document.getElementById("poseResults").innerText = JSON.stringify(
-      event.detail.poseLandmarkerResult
-    );
-  });
+  //console.log("message received: ",event)
+  document.getElementById("poseResults").innerText = JSON.stringify(
+    event.detail.poseLandmarkerResult
+  );
+});
+
+window.addEventListener("hand-landmarks", function (event) {
+  console.log("message hand received: ",event)
+  document.getElementById("handResults").innerText = JSON.stringify(
+    event.detail.handLandmarkEventData
+  );
+});
+
+window.addEventListener("face-landmarks", function (event) {
+  //console.log("message received: ",event)
+  document.getElementById("faceResults").innerText = JSON.stringify(
+    event.detail.faceLandmarkerResult
+  );
+});
   
   window.addEventListener("sentimentResult", function (event) {
     //console.log("sentiment received: ",event)
