@@ -6,7 +6,7 @@ window.addEventListener("pose-landmarks", function (event) {
 });
 
 window.addEventListener("hand-landmarks", function (event) {
-  console.log("message hand received: ",event)
+  //console.log("message hand received: ",event)
   document.getElementById("handResults").innerText = JSON.stringify(
     event.detail.handLandmarkEventData
   );
@@ -19,6 +19,13 @@ window.addEventListener("face-landmarks", function (event) {
   );
 });
   
+window.addEventListener("speechRecognition", function (event) {
+  console.log("speech Recognition message received: ",event)
+  document.getElementById("speechRecognition").innerText = JSON.stringify(
+    event.detail.result
+  );
+});
+
   window.addEventListener("sentimentResult", function (event) {
     //console.log("sentiment received: ",event)
     document.getElementById("sentimentResult").innerText = JSON.stringify(
@@ -46,14 +53,14 @@ window.addEventListener("face-landmarks", function (event) {
   });
   
   window.addEventListener("osc-message", function (event) {
-    console.log("osc-message received: ", event);
+    //console.log("osc-message received: ", event);
     document.getElementById("osc-message").innerText = JSON.stringify(
       event.detail.webSocketMessage
     );
   });
   
   window.addEventListener("ptz-position-message", function (event) {
-    console.log("ptz-position-message received: ", event);
+    //console.log("ptz-position-message received: ", event);
     document.getElementById("ptz-position-message").innerText = JSON.stringify(
       event.detail.ptzMessage
     );
@@ -61,7 +68,7 @@ window.addEventListener("face-landmarks", function (event) {
   
   
   document.getElementById("lowerHands").addEventListener("click", function callZoom() {
-  console.log("lower hands")
+  //console.log("lower hands")
     obs.call("BroadcastCustomEvent", {
       eventData: {
         event_name: `OSC-out`,
