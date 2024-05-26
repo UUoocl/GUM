@@ -174,6 +174,7 @@ sequenceDiagram
     GUM->>OBS: Send landmarks to browser
 ```
 
+ ## MediaPipe Pose Landmarks
 ### Output Message
 **Message name:** 
 
