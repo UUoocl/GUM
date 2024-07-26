@@ -48,7 +48,7 @@ window.addEventListener("speechRecognition", function (event) {
   window.addEventListener("gamepad-message", function (event) {
     //console.log("gamepad-message received: ",event)
     document.getElementById("gamepad-message").innerText = JSON.stringify(
-      event.detail.webSocketMessage
+      event.detail.gamepadEvent
     );
   });
   
