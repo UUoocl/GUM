@@ -177,6 +177,32 @@ sequenceDiagram
 ```
 
  ## MediaPipe Pose Landmarks
+<img src=https://github.com/user-attachments/assets/a610680d-19be-485c-96d8-9aef630a40fa width=300>
+
+|0 - nose |10 - mouth (right)|20 - right index|30 - right heel|
+|---|---|---|---|
+|1 - left eye (inner) |11 - left shoulder|21 - left thumb|31 - left foot index|
+|2 - left eye |12 - right shoulder|22 - right thumb|32 - right foot index|
+|3 - left eye (outer)|13 - left elbow|23 - left hip|
+|4 - right eye (inner) |14 - right elbow|24 - right hip|
+|5 - right eye |15 - left wrist|25 - left knee|
+|6 - right eye (outer) |16 - right wrist|26 - right knee|
+|7 - left ear |17 - left pinky|27 - left ankle|
+|8 - right ear |18 - right pinky|28 - right ankle|
+|9 - mouth (left) |19 - left index|29 - left heel|
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Output Message
 **Message name:** 
 
