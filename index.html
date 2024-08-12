@@ -49,7 +49,8 @@
                 <li>
                     <a href="#shortcuts">Apple Shortcuts</a>
                     <ul>
-                        <li><a href="#apple-shortcuts">Shortcuts Input<br></a></li>
+                        <li><a href="#mouse-shortcuts">Mouse<br></a></li>
+                        <li><a href="#ptz-shortcuts">PTZ<br></a></li>
                     </ul>
                 </li>
             </ul>
@@ -261,9 +262,13 @@ OBS browsers" />
     <section>
         <div>
         <h1>Apple Shortcuts Input</h1>
-        <div id="apple-shortcuts">
-            <p>Results from Apple Shortcuts</p>
-            <textarea id="shortcutsInput" style="height: 300px; width: 600px"></textarea>
+        <div id="mouse-shortcuts">
+            <p>Mouse coordinates</p>
+            <textarea id="mouseCoordinates" style="height: 100px; width: 600px"></textarea>
+        </div>
+        <div id="ptz-shortcuts">
+            <p>PTZ coordinates</p>
+            <textarea id="ptzValues" style="height: 100px; width: 600px"></textarea>
         </div>
     </section>
 
@@ -280,11 +285,7 @@ OBS browsers" />
     <script src="lib/SpeechRecognition.js"></script>
     <script src="lib/loadScripts.js"></script>
     <script src="lib/shortcutsScripts.js"></script>
-    <script>
-        function alertTest(){
-            window.alert("Hi Friend")
-        }
-    </script>
 
 </body>
 </html>
+
