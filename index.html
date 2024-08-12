@@ -46,6 +46,13 @@
                         <li><a href="#mp-gemma">Gemma<br>LLM Inference</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="#shortcuts">Apple Shortcuts</a>
+                    <ul>
+                        <li><a href="#mouse-shortcuts">Mouse<br></a></li>
+                        <li><a href="#ptz-shortcuts">PTZ<br></a></li>
+                    </ul>
+                </li>
             </ul>
             
     </nav>
@@ -251,6 +258,20 @@ OBS browsers" />
                 </div>
             </div>
         </section>
+        
+    <section>
+        <div>
+        <h1>Apple Shortcuts Input</h1>
+        <div id="mouse-shortcuts">
+            <p>Mouse coordinates</p>
+            <textarea id="mouseCoordinates" style="height: 100px; width: 600px"></textarea>
+        </div>
+        <div id="ptz-shortcuts">
+            <p>PTZ coordinates</p>
+            <textarea id="ptzValues" style="height: 100px; width: 600px"></textarea>
+        </div>
+    </section>
+
     </article>
 
     <script src='lib/obs-ws.js'></script>
@@ -263,6 +284,8 @@ OBS browsers" />
     <script src="lib/audioInput-renderer.js"></script>
     <script src="lib/SpeechRecognition.js"></script>
     <script src="lib/loadScripts.js"></script>
+    <script src="lib/shortcutsScripts.js"></script>
 
 </body>
 </html>
+
