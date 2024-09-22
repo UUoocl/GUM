@@ -275,9 +275,12 @@ OBS browsers" />
     </article>
 
     <script>
-        const params = new URLSearchParams(window.location.search); //parse params
-        const q = params.get("q"); //get q param
+        window.addEventListener("load", (event) => {
+            console.log("page is fully loaded");
+            const params = new URLSearchParams(window.location.search); //parse params
+            const q = params.get("q"); //get q param
         document.getElementbyid("PW").value = q; //assign q value to input when loading
+        });
     </script>
 
     <script src='lib/obs-ws.js'></script>
