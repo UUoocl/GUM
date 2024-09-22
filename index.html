@@ -274,6 +274,12 @@ OBS browsers" />
 
     </article>
 
+    <script>
+        const params = new URLSearchParams(window.location.search); //parse params
+        const q = params.get("q"); //get q param
+        document.getElementbyid("PW").value = q; //assign q value to input when loading
+    </script>
+
     <script src='lib/obs-ws.js'></script>
     <script src='lib/obsConnect.js'></script>
     <script src='lib/getLocalAV.js'></script>
