@@ -76,7 +76,7 @@
                             <input type="password" id="PW" name="PW" value="EfTC8xml3070cx3A" />
                             <input class="form-button" type="button" id="WSconnectButton" value="Connect to OBS" />
                         </form>
-                
+                        <p id="WorkingDirectory" hidden></p>
                 </div>
                 <div>
                     <h3>Choose an Audio and/or Video Source</h3>
@@ -288,9 +288,14 @@ OBS browsers" />
         window.addEventListener("load", (event) => {
             console.log("page is fully loaded");
             const params = new URLSearchParams(window.location.search); //parse params
-            const q = params.get("q"); //get q param
-            if(q){
-                document.getElementById("PW").value = q; //assign q value to input when loading
+            const pw = params.get("pw"); //get password param
+            const wd = params.get("wd"); //get working directory param
+            //assign pw value to input when loading
+            if(pw){
+                document.getElementById("PW").value = pw; 
+            }
+            if(wd){
+                document.getElementById("WorkingDirectory").innerHTML = wd; 
             }
         });
     </script>
