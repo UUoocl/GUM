@@ -1,0 +1,54 @@
+<html>
+<body>
+<script>
+
+  // simple example code of sending messages p2p to a remote listener, via the VDO.Ninja IFRAME API
+  
+  var connectionID = "bridge_to_amazing1"; // A unique ID for the VDO.Ninja stream
+
+  function sendCommandToOBS(command) {
+    var iframe = document.getElementById("obsCommander");
+    if (iframe) {
+      iframe.contentWindow.postMessage({"sendData": command}, '*');
+    }
+  }
+
+  // Example buttons for starting and stopping a broadcast
+  let messageObj = {"item1": "details to send","item2" : "more cool"}
+  function startBroadcast() { sendCommandToOBS(`${JSON.stringify(messageObj)}`); }
+  function stopBroadcast() { sendCommandToOBS('StopStreaming'); }
+
+  // Embedding VDO.Ninja iframe for sending commands
+  window.onload = function() {
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://vdo.ninja/?datamode&push=" + connectionID;
+    iframe.style.display = "none"; // Hide the iframe
+    iframe.id = "obsCommander";
+    document.body.appendChild(iframe);
+  };
+
+    // Setup to receive commands from the sender page
+    window.addEventListener("message", function (e) {
+    if ("dataReceived" in e.data) {
+      
+      var command = e.data.dataReceived;
+      
+      // Handle the received command (e.g., start or stop broadcast)
+      // This part will involve sending commands to OBS via WebSocket
+      console.log("Received command:", command);
+
+      // Example: if(command === "startBroadcast") { /* Start OBS broadcast */ }
+      // You will need to implement WebSocket communication here.
+
+//      sendCommandToOBS(command, {});
+
+      document.getElementById("log").innerHTML += "<br />Received command:"+ command;
+    }
+  });
+
+</script>
+<button onclick="startBroadcast()">Start Broadcast</button>
+<button onclick="stopBroadcast()">Stop Broadcast</button>
+<div id="log"></div>
+</body>
+</html>
