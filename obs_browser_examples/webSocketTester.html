@@ -116,17 +116,6 @@
   <script src="lib/webSocketTester.js"></script>
   
   <script>
-    window.addEventListener(`ws-details`, async function (event) {
-      console.log("message received: ", event)
-
-      //event wss details
-      const IP = event.detail.wssDetails.IP;
-      const PORT = event.detail.wssDetails.PORT;
-      const PW = event.detail.wssDetails.PW;
-
-      await connectOBS(IP, PORT, PW);
-    })
-
     var coll = document.getElementsByClassName("collapsible");
     var i;
     

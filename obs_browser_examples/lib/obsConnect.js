@@ -1,53 +1,98 @@
-document
-  .getElementById("WSconnectButton")
-  .addEventListener("click", connectOBS);
-
-var wssDetails;
 var obs = new OBSWebSocket();
-async function connectOBS() {
-  const websocketIP = document.getElementById("IP").value;
-  const websocketPort = document.getElementById("Port").value;
-  const websocketPassword = document.getElementById("PW").value;
 
+//get web socket details from a message
+window.addEventListener(`ws-details`, async function (event) {
+  //event wss details
+  console.log("message received: ", event)
+  if(event.detail.hasOwnProperty('wssDetails')){
+    await connectOBS(event.detail.wssDetails);
+  }
+})
+
+//check local storage for OBS Web Socket Details
+//on load, if storage item exists
+window.addEventListener('load', async function() {
+  obs.connected = false;
+  if(localStorage.getItem('wssDetails') !== null){
+    //try to connect
+    console.log("try saved websocket details")
+    setTimeout(() => connectOBS(JSON.parse(window.localStorage.getItem('wssDetails'))), 1000);
+  }
+})
+
+async function wsConnectButton() {
+  wssDetails = {
+    IP: document.getElementById("IP").value,
+    PORT: document.getElementById("Port").value,
+    PW: document.getElementById("PW").value,
+  };
+
+  localStorage.setItem("wssDetails", JSON.stringify(wssDetails))
+
+  await connectOBS(wssDetails).then(async (result) => {
+    if (result === "failed") {
+      document.getElementById("WSconnectButton").style.background = "#ff0000";
+    }
+  });
+}
+
+async function connectOBS(wssDetails) {
   //connect to OBS web socket server
   try {
-    const { obsWebSocketVersion, negotiatedRpcVersion } = await obs.connect(
-      `ws://${websocketIP}:${websocketPort}`,
-      websocketPassword,
-      {
-        rpcVersion: 1,
-      }
-    );
-    console.log(
-      `Connected to server ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`
-    );
+    //avoid duplicate connections
+    await disconnect();
 
-    document.getElementById("WSconnectButton").style.background = "#00ff00";
-    wssDetails = {
-      IP: websocketIP,
-      PORT: websocketPort,
-      PW: websocketPassword,
-    };
-    //send websocket server connection details to OBS browser source
-    await obs.call("CallVendorRequest", {
-      vendorName: "obs-browser",
-      requestType: "emit_event",
-      requestData: {
-        event_name: "ws-details",
-        event_data: { wssDetails },
-      },
-    });
+    //connect to OBS Web Socket Server
+    const { obsWebSocketVersion, negotiatedRpcVersion } = 
+    await obs.connect(`ws://${wssDetails.IP}:${wssDetails.PORT}`,wssDetails.PW,{rpcVersion: 1,});
+    console.log(`Connected to server ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`);
+    
+    localStorage.setItem("wssDetails",JSON.stringify(wssDetails))
+    
+    return "connected";
   } catch (error) {
     console.error("Failed to connect", error.code, error.message);
-    document.getElementById("WSconnectButton").style.background = "#ff0000";
+    //localStorage.setItem("wssDetails",null)
+    return "failed";
   }
-  obs.on("error", (err) => {
-    console.error("Socket error:", err);
-  });
-  console.log(`ws://${websocketIP}:${websocketPort}`);
-
-  return obs;
+  //console.log(`ws://${wssDetails.IP}:${wssDetails.PORT}`);
 }
+
+  async function disconnect () {
+    try{
+      await obs.disconnect()
+      console.log("disconnected")
+      obs.connected = false
+    } catch(error){
+      console.error("disconnect catch",error)
+    }
+    
+  }
+
+obs.on('ConnectionOpened', () => {
+  console.log('Connection to OBS WebSocket successfully opened');
+  obs.status = "connected";
+});
+
+obs.on('ConnectionClosed', () => {
+  console.log('Connection to OBS WebSocket closed');
+  obs.status = "disconnected";
+});
+
+obs.on('ConnectionError', err => {
+  console.error('Connection to OBS WebSocket failed', err);
+});
+
+obs.on("Identified", async (data) => {
+  obs.connected = true;
+  console.log("OBS WebSocket successfully identified", data);
+});
+
+
+obs.on("error", (err) => {
+  console.error("Socket error:", err);
+});
+
 
 async function refreshOBSbrowsers(){
       

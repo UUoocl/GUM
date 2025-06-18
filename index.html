@@ -25,7 +25,7 @@
                     <a href="#audio">Audio</a>
                     <ul>
                         <li><a href="#audio-fft-analysis">Audio Frequency</a></li>
-                        <li><a href="#audio-speechRecognition">Speech Recognition</a></li>
+                        <!-- <li><a href="#audio-speechRecognition">Speech Recognition</a></li> -->
                     </ul>
                 </li>
                 <li>
@@ -42,11 +42,11 @@
                         <li><a href="#mp-hand-detect">Hand Landmarks</a></li>
                         <li><a href="#mp-face-detect">Face Landmark<br>Detection</a></li>
                         <li><a href="#mp-segmentation-detect">Image Segmentation</a></li>
-                        <li><a href="#mp-sentiment-analysis">Text Sentiment</a></li>
-                        <li Hidden><a href="#mp-gemma">Gemma<br>LLM Inference</a></li>
+                        <!-- <li><a href="#mp-sentiment-analysis">Text Sentiment</a></li>
+                        <li Hidden><a href="#mp-gemma">Gemma<br>LLM Inference</a></li> -->
                     </ul>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#shortcuts">Apple Shortcuts</a>
                     <ul>
                         <li><a href="#mouse-shortcuts">Mouse<br></a></li>
@@ -54,13 +54,13 @@
                         <li><a href="#keynote-shortcuts">Keynote Notes<br></a></li>
                         <li><a href="#powerPoint-shortcuts">PowerPoint Notes<br></a></li>
                     </ul>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a href="#obs-scenes">OBS</a>
                     <ul>
                         <li><a href="#mouse-shortcuts">Scenes and Sources<br></a></li>
                     </ul>
-                </li>
+                </li> -->
             </ul>
             
     </nav>
@@ -70,20 +70,50 @@
         <h4>Choose the media (Video, Audio, Midi or Gamepad) to send to the OBS Browser</h4>
 
         <section>
+            <div id="srvr-obs-ws">
+                <h3>Open OBS</h3>
+                <form class="form-grid" id="obsData">
+                    <label for="configName">Enter a configuration name:</label>
+                    <input type="text" id="configName" name="configName" list="configNameValues"
+                        placeholder="UUinsome" />
+                    <datalist id="configNameValues">
+
+                    </datalist>
+                    <label for="obsName" id="obsNameLabel">Enter OBS app name:</label>
+                    <input type="text" id="obsName" name="obsName" value="OBS" />
+                    <label for="profileName">Enter OBS Profile name:</label>
+                    <input type="text" id="profileName" name="profileName" value="720vc" />
+                    <label for="collectionName">Enter OBS Collection name:</label>
+                    <input type="text" id="collectionName" name="collectionName" value="UUinsome" />
+                    <label for="IP">Enter IP address or "localhost":</label>
+                    <input type="text" id="IP" name="IP" value="localhost" disabled/>
+                    <label for="Port">Enter Port Number:</label>
+                    <input type="text" id="Port" name="Port" value="4455" />
+                    <label for="PW">Enter Password:</label>
+                    <input type="password" id="PW" name="PW" value="" />
+                    <label for="virtualCameraOn">Start Virtual Camera:</label>
+                    <input type="checkbox" id="virtualCameraOn" name="virtualCameraOn" disabled unchecked />
+                    <label for="Debug">Debug mode:</label>
+                    <input type="checkbox" id="Debug" name="Debug" />
+                    <p></p><div id="openOBSbutton">
+                        <input class="form-button" type="button" value="Open OBS" />
+                    </div>
+                </form>
+
+                <div><button id="copyCommand">Copy Command</button><input type="text" id="obsOpenCommand"/></div>
+            </div>
+        </section>
+        
+        <section>
             <div id="srvr">
-                <div id="srvr-obs-ws">
-                    <h3>Connect to the OBS WebSocket Server</h3>
-                    <form class="form-grid">
-                            <label for="IP">Enter IP address or "localhost":</label>
-                            <input type="text" id="IP" name="IP" value="localhost" />
-                            <label for="Port">Enter Port Number:</label>
-                            <input type="text" id="Port" name="Port" value="4455" />
-                            <label for="PW">Enter Password:</label>
-                            <input type="password" id="PW" name="PW" value="EfTC8xml3070cx3A" />
-                            <input class="form-button" type="button" id="WSconnectButton" value="Connect to OBS" />
-                        </form>
-                        <p id="WorkingDirectory" hidden></p>
-                </div>
+                <h3>Connect to the OBS WebSocket Server</h3>
+                <form class="form-grid">
+                    <p></p><input class="form-button" type="button" id="WSconnectButton" value="Connect" />
+                </form>
+            </div>
+        </section>
+
+        <section>
                 <div>
                     <h3>Choose an Audio and/or Video Source</h3>
                     <p>
@@ -95,11 +125,12 @@
                             chrome://settings/content/microphone)</label><br>
                         <input class="form-button" type="button" id="captureSource" value="Check Audio/Video" />
                         <br>
-                        <video id="videoStream"></video>
+                        <video id="videoStream" hidden></video>
                     </p>
                 </div>
             </div>
         </section>
+
 
         
         <section>
@@ -157,7 +188,8 @@ OBS browsers" />
                     </div>
                 </div>
         </section>
-        <section>
+
+        <section hidden>
             <div id="audio-SpeechRecognition">
                 <h3>
                 <!-- <input type="checkbox" id="gamepad-load"/> -->
@@ -173,6 +205,7 @@ OBS browsers" />
                     </div>
                 </div>
         </section>
+
         <section>
             <div>
                 <h3>MediaPipe Pose Detection</h3>
@@ -212,7 +245,7 @@ OBS browsers" />
                 </div>
             </div>
            
-            <div>
+            <div hidden>
                 <h3>MediaPipe Text Classification</h3>
                 <div id="mp-sentiment-analysis">
                     <input type="button" class="form-button" id="startTextAnalysis" value="Start Text Analysis" />
@@ -267,7 +300,7 @@ OBS browsers" />
             </div>
         </section>
         
-    <section>
+    <section hidden>
         <div>
         <h1>Apple Shortcuts Input</h1>
         <div id="mouse-shortcuts" hidden>
@@ -288,7 +321,7 @@ OBS browsers" />
         </div>
     </section>
     
-    <section>
+    <section hidden>
         <div>
         <h1>OBS Scenes and Sources</h1>
         <div id="obs-scenes">
@@ -304,45 +337,88 @@ OBS browsers" />
 
     </article>
 
+    <script src='lib/obs-ws.js'></script>
+    <script src='lib/obsOpen.js'></script>
+
     <script>
         window.addEventListener("load", (event) => {
             console.log("page is fully loaded");
-            const params = new URLSearchParams(window.location.search); //parse params
-            const pw = params.get("pw"); //get password param
-            const wd = params.get("wd"); //get working directory param
-            //assign pw value to input when loading
-            if(pw){
-                document.getElementById("PW").value = pw; 
-                document.getElementById("WSconnectButton").click(); 
+            if (localStorage.getItem("wssDetails")) {
+                const wssDetails = JSON.parse(window.localStorage.getItem('wssDetails'))
+                document.getElementById("IP").value = wssDetails?.IP;
+                document.getElementById("Port").value = wssDetails?.PORT;
+                document.getElementById("PW").value = wssDetails?.PW;    
+            }
 
+            //add button event listeners
+            document
+                .getElementById("configName")
+                .addEventListener('change', configSelected);
+
+            document
+                .getElementById("openOBSbutton")
+                .addEventListener('click', openOBS);
+
+            document
+                .getElementById("obsData")
+                .addEventListener('change', obsLaunchCommand);
+
+            document
+                .getElementById("copyCommand")
+                .addEventListener('click', (e) => {
+                    console.log(e)
+                    copyCode(e.target.id, "obsOpenCommand", e.target.innerText)});
+
+            document
+                .getElementById("WSconnectButton")
+                .addEventListener("click", wsConnect);
+
+            obsLaunchCommand();
+        })
+
+        //button functions            
+        function openOBS() {
+            let uuinsomeHREF = window.location.href;
+            // "path":"${uuinsomeHREF}",
+            let inputArray = JSON.stringify(`{"obsName":"${document.getElementById("obsName").value}","profileName":"${document.getElementById("profileName").value}","collectionName":"${document.getElementById("collectionName").value}","ip":"${document.getElementById("IP").value}","port":"${document.getElementById("Port").value}","password":"${document.getElementById("PW").value}"}`)
+            console.log(inputArray)
+            if (document.getElementById("Debug").checked) {
+                window.open(`shortcuts://run-shortcut?name=INPUT-Open_OBS_Profile-Collection-WebSocket-DEBUG&input=text&text=${inputArray}`, "_self");
+            } else {
+                window.open(`shortcuts://run-shortcut?name=INPUT-Open_OBS_Profile-Collection-WebSocket&input=text&text=${inputArray}`, "_self");
             }
-            if(wd){
-                document.getElementById("WorkingDirectory").innerHTML = wd; 
-            }
+        }
+        
+        obs.on("Identified", async (data) => {
+            console.log("OBS WebSocket successfully identified", data);
+    
+            document.getElementById("WSconnectButton").style.background = "#00ff00";
+    
+            //send websocket server connection details to OBS browser sources
+            const wssDetails = JSON.parse(window.localStorage.getItem('wssDetails'))
+            console.log(wssDetails);
+    
+            await obs.call("CallVendorRequest", {
+                vendorName: "obs-browser",
+                requestType: "emit_event",
+                requestData: {
+                    event_name: "ws-details",
+                    event_data: { wssDetails },
+                },
+            });
         });
     </script>
 
-    <script src='lib/obs-ws.js'></script>
-    <script src='lib/obsConnect.js'></script>
     <script src='lib/getLocalAV.js'></script>
     <script src='lib/rtc-source.js'></script>
     <script src="lib/webmidi.js"></script>
     <script src="lib/webmidi-Module.js"></script>
     <script src="lib/gamepadtest.js"></script>
     <script src="lib/audioInput-renderer.js"></script>
-    <script src="lib/SpeechRecognition.js"></script>
+    <!-- <script src="lib/SpeechRecognition.js"></script> -->
     <script src="lib/loadScripts.js"></script>
-    <script src="lib/shortcutsScripts.js"></script>
-    <script src="lib/obsScenes.js"></script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YL858H3N2E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-YL858H3N2E');
-</script>
-</body>
+    <!-- <script src="lib/shortcutsScripts.js"></script> -->
+    <!-- <script src="lib/obsScenes.js"></script> -->
+    </body>
 </html>
 
