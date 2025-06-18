@@ -1,6 +1,39 @@
+//Connect an OBS browser source to the OBS Web Socket Server(WSS).
+//1. Check if the URL includes WSS details
+//2. Check if the browser local storage includes WSS details
+//3. listen for WSS details message
+//4. listen for a button press to start 
+
 var obs = new OBSWebSocket();
 
-//get web socket details from a message
+window.addEventListener('DOMContentLoaded', async function() {
+  obs.connected = false;
+
+  //get URL parameters
+  const params = new URLSearchParams(window.location.search);
+  //get local storage
+  const localStorageWssDetails = localStorage.getItem('wssDetails');
+  switch(true){
+    //1. check if the URL has WSS details
+    case params.has("wsspw"):
+        wssDetails = {
+          IP: params.get("wssip"),
+          PORT: params.get("wssport"),
+          PW: params.get("wsspw"),
+        };
+        const paramsConnected = await connectOBS(wssDetails);    
+        console.log("paramsConnected",paramsConnected)
+        if(paramsConnected === 'connected'){break;}
+    //2. check local storage for OBS Web Socket Details
+    case (localStorageWssDetails !== null):
+      console.log("try saved websocket details")
+      const result = await connectOBS(JSON.parse(window.localStorage.getItem('wssDetails')))    
+      if(result === 'connected'){break;}
+  }
+  //
+})
+
+//3. get web socket details from a message
 window.addEventListener(`ws-details`, async function (event) {
   //event wss details
   console.log("message received: ", event)
@@ -9,18 +42,9 @@ window.addEventListener(`ws-details`, async function (event) {
   }
 })
 
-//check local storage for OBS Web Socket Details
-//on load, if storage item exists
-window.addEventListener('load', async function() {
-  obs.connected = false;
-  if(localStorage.getItem('wssDetails') !== null){
-    //try to connect
-    console.log("try saved websocket details")
-    setTimeout(() => connectOBS(JSON.parse(window.localStorage.getItem('wssDetails'))), 1000);
-  }
-})
-
+//4. listen for a button press to start 
 async function wsConnectButton() {
+  //change to this.
   wssDetails = {
     IP: document.getElementById("IP").value,
     PORT: document.getElementById("Port").value,
@@ -36,8 +60,9 @@ async function wsConnectButton() {
   });
 }
 
+
+//connect to OBS web socket server
 async function connectOBS(wssDetails) {
-  //connect to OBS web socket server
   try {
     //avoid duplicate connections
     await disconnect();
@@ -58,16 +83,16 @@ async function connectOBS(wssDetails) {
   //console.log(`ws://${wssDetails.IP}:${wssDetails.PORT}`);
 }
 
-  async function disconnect () {
-    try{
-      await obs.disconnect()
-      console.log("disconnected")
-      obs.connected = false
-    } catch(error){
-      console.error("disconnect catch",error)
-    }
-    
+async function disconnect () {
+  try{
+    await obs.disconnect()
+    console.log("disconnected")
+    obs.connected = false
+  } catch(error){
+    console.error("disconnect catch",error)
   }
+  
+}
 
 obs.on('ConnectionOpened', () => {
   console.log('Connection to OBS WebSocket successfully opened');
@@ -93,7 +118,20 @@ obs.on("error", (err) => {
   console.error("Socket error:", err);
 });
 
+async function sendWSSdetails() {
+  const event_name = `ws-details-for-client-${rtcID}`;
+  console.log("event_name",event_name, wssDetails);
+  await obs.call("CallVendorRequest", {
+    vendorName: "obs-browser",
+    requestType: "emit_event",
+    requestData: {
+      event_name: event_name,
+      event_data: { wssDetails },
+    },
+  })
+    }
 
+    //TODO: make refresh all browsers in all scenes, all browsers in 1 scene, 1 browser
 async function refreshOBSbrowsers(){
       
   let SceneItems = await obs.call("GetSceneItemList", {
@@ -114,16 +152,3 @@ async function refreshOBSbrowsers(){
   setTimeout(connectOBS,1000)
   console.log('browser refresh complete')
 }
-
-async function sendWSSdetails() {
-  const event_name = `ws-details-for-client-${rtcID}`;
-  console.log("event_name",event_name, wssDetails);
-  await obs.call("CallVendorRequest", {
-    vendorName: "obs-browser",
-    requestType: "emit_event",
-    requestData: {
-      event_name: event_name,
-      event_data: { wssDetails },
-    },
-  })
-    }
