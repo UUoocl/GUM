@@ -72,6 +72,7 @@ window.addEventListener("speechRecognition", function (event) {
     obs.call("BroadcastCustomEvent", {
       eventData: {
         event_name: `OSC-out`,
+        osc_name:'zoomOSC',
   //      command with no arguments
        address: "/zoom/lowerAllHands",
   
@@ -83,10 +84,10 @@ window.addEventListener("speechRecognition", function (event) {
     obs.call("BroadcastCustomEvent", {
       eventData: {
         event_name: `OSC-out`,
-        
+        osc_name:'zoomOSC', 
         //command with 1 arguments
-       address: "/zoom/userName/videoOn",
-            "arg1":"Jonathan Wood"
+        address: "/zoom/userName/videoOn",
+        "arg1":"Jonathan Wood"
       },
     });
   })
@@ -94,10 +95,27 @@ window.addEventListener("speechRecognition", function (event) {
     obs.call("BroadcastCustomEvent", {
       eventData: {
         event_name: `OSC-out`,
-        
+        osc_name:'zoomOSC',
         address: "/zoom/userName/chat",
-            "arg1":"Jonathan Wood",
-            "arg2":"Hello!"
+        "arg1":"Jonathan Wood",
+        "arg2":"Hello!"
+      },
+    });
+  })
+  
+  document.getElementById("getPTZ").addEventListener("click", () => {
+    obs.call("BroadcastCustomEvent", {
+      eventData: {
+        event_name: `OSC-out`,
+        osc_name: 'ptz',
+        // address: "/OBSBOT/WebCam/General/GetDeviceInfo",
+        // address: "/OBSBOT/WebCam/General/SetGimbalUp",
+        // address: "/OBSBOT/WebCam/General/GetGimbalPosInfo",
+        address: "/OBSBOT/WebCam/General/SetZoomMax",
+        //address: "/OBSBOT/WebCam/General/Connected",
+        "arg1": 0,
+        // "arg2": 50,
+
       },
     });
   })

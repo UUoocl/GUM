@@ -5,7 +5,7 @@
 //4. listen for a button press to start 
 
 var obs = new OBSWebSocket();
-
+let connecting = false;
 window.addEventListener('DOMContentLoaded', async function() {
   obs.connected = false;
 
@@ -37,7 +37,8 @@ window.addEventListener('DOMContentLoaded', async function() {
 window.addEventListener(`ws-details`, async function (event) {
   //event wss details
   console.log("message received: ", event)
-  if(event.detail.hasOwnProperty('wssDetails')){
+  if(event.detail.hasOwnProperty('wssDetails') && connecting === false){
+    connecting = true;
     await connectOBS(event.detail.wssDetails);
   }
 })
@@ -73,10 +74,11 @@ async function connectOBS(wssDetails) {
     console.log(`Connected to server ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`);
     
     localStorage.setItem("wssDetails",JSON.stringify(wssDetails))
-    
+    connecting = false;
     return "connected";
   } catch (error) {
     console.error("Failed to connect", error.code, error.message);
+    connecting = false;
     //localStorage.setItem("wssDetails",null)
     return "failed";
   }
